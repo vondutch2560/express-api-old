@@ -22,10 +22,10 @@ router.get('/', (_req, res) => {
   }
 });
 
-// router.delete('/', async (_req, res) => {
-//   const result = await fns.removeFilesInDir('file-upload')
-//   if (result) res.send(fns.resSuccess('Delete all file successful'))
-//   else res.send(fns.resError(2))
-// })
+router.delete('/', async (_req, res) => {
+  const result = await utils.removeFilesInDir(pathc.JT.uploadDir);
+  if (result) res.send({ success: true, msg: 'All file was deleted' });
+  else res.send({ error: true, msg: 'Cannot delete files' });
+});
 
 export default router;

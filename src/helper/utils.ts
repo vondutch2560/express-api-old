@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync, readdirSync, readFile, statSync } from 'fs';
+import { unlink } from 'node:fs/promises';
 
 const utils = {
   createFolder(absPath: string) {
@@ -48,6 +49,16 @@ const utils = {
 
   removeFileExt(str: string): string {
     return str.split('.').slice(0, -1).join('.');
+  },
+
+  async removeFilesInDir(absPath: string): Promise<boolean> {
+    const filesInDir = this.listInDir(absPath, true);
+    try {
+      await Promise.all(filesInDir.map((file) => unlink(file)));
+      return true;
+    } catch (error) {
+      return false;
+    }
   },
 
   sleep(ms: number): Promise<void> {
