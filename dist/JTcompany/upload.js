@@ -26,4 +26,11 @@ router.get('/', (_req, res) => {
         res.send({ fileList: [], msg: 'Created dir upload for jtcompany done.' });
     }
 });
+router.delete('/', async (_req, res) => {
+    const result = await utils_1.default.removeFilesInDir(pathc_1.default.JT.uploadDir);
+    if (result)
+        res.send({ success: true, msg: 'All file was deleted' });
+    else
+        res.send({ error: true, msg: 'Cannot delete files' });
+});
 exports.default = router;

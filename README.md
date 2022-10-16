@@ -16,3 +16,5 @@ How to use without build source typescript
 
 5/ use git pull as normal when you need update version
 | git pull
+
+6/ Remember put env file in server

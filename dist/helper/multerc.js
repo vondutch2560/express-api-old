@@ -11,8 +11,8 @@ const storage = multer_1.default.diskStorage({
         cb(null, pathc_1.default.JT.uploadDir);
     },
     filename(_req, file, cb) {
-        const fileName = utils_1.default.removeFileExt(file.originalname);
         const fileExt = utils_1.default.getFileExt(file.originalname);
+        const fileName = utils_1.default.removeFileExt(file.originalname);
         cb(null, `${fileName} - ${String(Date.now()).slice(-10)}.${fileExt}`);
     }
 });

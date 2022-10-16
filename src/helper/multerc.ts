@@ -9,8 +9,8 @@ const storage = multer.diskStorage({
   },
 
   filename(_req, file, cb) {
-    const fileName = utils.removeFileExt(file.originalname);
     const fileExt = utils.getFileExt(file.originalname);
+    const fileName = utils.removeFileExt(file.originalname);
     cb(null, `${fileName} - ${String(Date.now()).slice(-10)}.${fileExt}`);
   }
 });
