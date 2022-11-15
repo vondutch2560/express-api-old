@@ -22,16 +22,32 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
 const path_1 = require("path");
+const os_1 = __importDefault(require("os"));
 dotenv.config();
 const rootDir = (0, path_1.resolve)('./');
 const staticDir = (0, path_1.join)(rootDir, 'static');
+const mochiAudioDir = (0, path_1.join)(os_1.default.homedir(), 'sambashare', 'Seagate', 'Mochi', 'audio');
+const mochiListMd5Dir = (0, path_1.join)(staticDir, 'mochi');
+const mochiListMd5File = (0, path_1.join)(staticDir, 'mochi', 'md5.json');
 const pathc = {
     staticDir,
     JT: {
         uploadDir: (0, path_1.join)(staticDir, process.env.JT, 'upload')
+    },
+    jav: {
+        coverSmall: (0, path_1.join)(staticDir, 'jav', 'cover', 'small'),
+        coverFull: (0, path_1.join)(staticDir, 'jav', 'cover')
+    },
+    mochi: {
+        listMD5Dir: mochiListMd5Dir,
+        listMD5File: mochiListMd5File,
+        audio: mochiAudioDir
     }
 };
 exports.default = pathc;

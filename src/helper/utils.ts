@@ -1,5 +1,10 @@
-import { existsSync, mkdirSync, readdirSync, readFile, statSync } from 'fs';
+import { createWriteStream, existsSync, mkdirSync, readdirSync, readFile, statSync } from 'fs';
 import { unlink } from 'node:fs/promises';
+
+interface OptionsRegex {
+  isMatch?: boolean;
+  groupIndex?: number;
+}
 
 const utils = {
   convertVnChar(str: string): string {
@@ -85,6 +90,27 @@ const utils = {
     });
   },
 
+  regex(rgx: RegExp, source: string, options: OptionsRegex = {}): string[] {
+    const isMatch = options.isMatch || true;
+    const groupIndex = options.groupIndex || 9999;
+
+    let m;
+    const resultMatch: string[] = [];
+    const resultGroup: string[] = [];
+
+    while ((m = rgx.exec(source)) !== null) {
+      if (m.index === rgx.lastIndex) {
+        rgx.lastIndex++;
+      }
+
+      m.forEach((match, grpInd) => {
+        if (isMatch) resultMatch.push(match);
+        if (grpInd >= groupIndex) resultGroup.push(match);
+      });
+    }
+    return groupIndex !== 9999 ? resultGroup : resultMatch;
+  },
+
   removeFileExt(str: string): string {
     return str.split('.').slice(0, -1).join('.');
   },
@@ -101,6 +127,16 @@ const utils = {
 
   sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  },
+
+  writeStream(absPath: string, data: string | Buffer): Promise<boolean> {
+    const cws = createWriteStream(absPath);
+    cws.write(data);
+    cws.end();
+    return new Promise((resolve, reject) => {
+      cws.on('finish', resolve);
+      cws.on('error', reject);
+    });
   }
 };
 

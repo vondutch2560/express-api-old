@@ -64,6 +64,25 @@ const utils = {
             });
         });
     },
+    regex(rgx, source, options = {}) {
+        const isMatch = options.isMatch || true;
+        const groupIndex = options.groupIndex || 9999;
+        let m;
+        const resultMatch = [];
+        const resultGroup = [];
+        while ((m = rgx.exec(source)) !== null) {
+            if (m.index === rgx.lastIndex) {
+                rgx.lastIndex++;
+            }
+            m.forEach((match, grpInd) => {
+                if (isMatch)
+                    resultMatch.push(match);
+                if (grpInd >= groupIndex)
+                    resultGroup.push(match);
+            });
+        }
+        return groupIndex !== 9999 ? resultGroup : resultMatch;
+    },
     removeFileExt(str) {
         return str.split('.').slice(0, -1).join('.');
     },
@@ -79,6 +98,15 @@ const utils = {
     },
     sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
+    },
+    writeStream(absPath, data) {
+        const cws = (0, fs_1.createWriteStream)(absPath);
+        cws.write(data);
+        cws.end();
+        return new Promise((resolve, reject) => {
+            cws.on('finish', resolve);
+            cws.on('error', reject);
+        });
     }
 };
 exports.default = utils;

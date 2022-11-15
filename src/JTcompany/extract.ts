@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-import { resolve as resolvePath, join as joinPath } from 'path';
 import { Router } from 'express';
 import pdf from 'pdf-parse';
 import utils from '../helper/utils';
