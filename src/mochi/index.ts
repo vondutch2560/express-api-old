@@ -38,4 +38,9 @@ mochiRouter.get('/md5', (req, res) => {
   res.send(listMD5);
 });
 
+mochiRouter.get('/delete/:md5', async (req, res) => {
+  const result = await utils.removeFile(`${pathc.mochi.audio}/${req.params.md5}.mp3`);
+  res.send({ result });
+});
+
 export default mochiRouter;

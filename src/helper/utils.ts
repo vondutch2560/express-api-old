@@ -125,6 +125,15 @@ const utils = {
     }
   },
 
+  async removeFile(absPath: string): Promise<boolean> {
+    try {
+      await unlink(absPath);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  },
+
   sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   },
