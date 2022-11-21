@@ -96,6 +96,15 @@ const utils = {
             return false;
         }
     },
+    async removeFile(absPath) {
+        try {
+            await (0, promises_1.unlink)(absPath);
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
+    },
     sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
     },
